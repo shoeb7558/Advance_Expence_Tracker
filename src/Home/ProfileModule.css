@@ -29,3 +29,13 @@
     
     
 }
+.profilepohot{
+    width: 200px;
+    height: 200px;
+    border: none;
+    border-radius: 50%;
+}
+.profilepohotdiv{
+    height: 10px;
+    width: 10px;
+}
