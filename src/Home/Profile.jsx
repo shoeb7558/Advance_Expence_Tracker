@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ProfileModule.css';
 
 const Profile = () => {
   // State for form fields
+  const [data, setdata] = useState([])
   const [contactDetails, setContactDetails] = useState({
     fullName: '',
     photoLink: '',
@@ -43,6 +44,30 @@ const Profile = () => {
     }));
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://advanceexpencetracker-default-rtdb.firebaseio.com/contact.json');
+        if (!response.ok) {
+          throw new Error('Something went wrong!');
+        }
+        const result = await response.json();
+        
+        // Convert the Firebase data object into an array of contacts
+        const contacts = result ? Object.keys(result).map((key) => ({ id: key, ...result[key] })) : [];
+        setdata(contacts);
+        console.log(contacts);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        console.log('done');
+      }
+    };
+  
+    fetchData();
+  }, []);
+  
+
   return (
     <div className='contactdiv1'>
       <div>
@@ -81,6 +106,19 @@ const Profile = () => {
           Update
         </button>
       </form>
+      <div>
+      <div>
+        {data.map((contact) => (
+          <div key={contact.id}>
+            
+            <p>Full Name: {contact.fullName}</p>
+            <div className='profilepohotdiv'>
+            <span >Profile Photo URL: <img className='profilepohot' src={contact.photoLink} alt="Profile" /></span>
+            </div>
+          </div>
+        ))}
+      </div>
+      </div>
     </div>
   );
 };
