@@ -1,0 +1,8 @@
+.homediv1{
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+    padding-left: 5px;
+    border-bottom: 1px solid gray;
+    padding-bottom: 10px;
+}
