@@ -1,0 +1,47 @@
+
+.SignUpForm{
+    width: 300px;
+    height: 300px;
+    border-radius:10px ;
+    background-color: antiquewhite;
+    text-align: center;
+    justify-content: left;
+    padding: 20px;
+    
+
+   
+}
+
+.FormInput{
+    margin: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none
+}
+.FormButton{
+    width: 100px;
+    padding: 10px;
+    margin: 10px;
+    border-radius:10px;
+    border: none;
+    background-color: aquamarine;
+}
+.formdiv{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: 'column';
+}
+/* .SignUpdiv{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: 'column';
+} */
+
+.h2div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+}
