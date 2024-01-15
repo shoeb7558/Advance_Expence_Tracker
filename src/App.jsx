@@ -13,10 +13,10 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        {!authCtx.isLoggedIn && <Route path="/" element={<Signup />} />}
+        {!authCtx.isLoggedIn && <Route path="/signup" element={<Signup />} />}
         {!authCtx.isLoggedIn && <Route path="/Login" element={<LogIn />} />} 
         {!authCtx.isLoggedIn && <Route path="/ForgotPassword" element={<ForgotPassword />} />} 
-        {authCtx.isLoggedIn && <Route path="/home" element={<Home />} />}
+        {authCtx.isLoggedIn && <Route path="/" element={<Home />} />}
         <Route path="/Profile" element={<Profile/>}></Route>
       </Routes>
     </Router>

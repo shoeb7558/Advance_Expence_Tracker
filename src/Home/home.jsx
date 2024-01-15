@@ -1,7 +1,8 @@
 import React, {useContext} from 'react';
 import './homeModule.css';
 import AuthContext from '../Context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import ExpenseTracker from '../Expences/Expences';
 
 function Home() {
     const AuthCtx = useContext(AuthContext);
@@ -57,14 +58,19 @@ function Home() {
     <>
       <div className='homediv1'>
         <h1>Welcome to the home page</h1>
+        <div className='homediv2'>
         <button className='verifybutton2' onClick={logoutHandler}>LogOut</button>
-        <h5>Complete your profile</h5>
-        
+        <h5><Link to='/Profile'>Profile</Link></h5>
+        {!AuthCtx.isLoggedIn && <h5><Link to='/signup'>SignUp</Link></h5>}
+        </div>
       </div>
-      <div className='verifydiv'>
+      {AuthCtx.isLoggedIn &&<div className='verifydiv'>
         <button className='verifybutton'  onClick={verifyEmail}>
           Verify Email
         </button>
+      </div>}
+      <div>
+        {AuthCtx.isLoggedIn && <ExpenseTracker/> }
       </div>
     </>
   );
