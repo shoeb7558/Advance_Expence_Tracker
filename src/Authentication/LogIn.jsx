@@ -2,7 +2,7 @@
 import React, { useState, useContext } from 'react';
 import './LogInModule.css'
 import AuthContext from '../Context/AuthContext';
-import { useNavigate  } from 'react-router-dom';
+import {Link, useNavigate  } from 'react-router-dom';
 
 
 
@@ -63,6 +63,7 @@ const LoginForm =() => {
       <label>Password:</label>
       <input className='FormInput' type="password" value={userpassword} onChange={(e) => setPassword(e.target.value)} required />
       <button className='FormButton' type="submit">Login</button>
+      <Link to="/ForgotPassword">Forgot Password</Link>
     </form>
     </div>
   );
