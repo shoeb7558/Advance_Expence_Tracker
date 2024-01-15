@@ -1,7 +1,7 @@
 .homediv1{
     display: flex;
     justify-content: space-between;
-    height: 50px;
+    height: 70px;
     padding-left: 5px;
     border-bottom: 1px solid gray;
     padding-bottom: 10px;
@@ -20,4 +20,15 @@
     align-items: end;
     justify-content: end;
     display: flex;
+}
+.verifybutton2{
+    padding: 10px;
+    
+    margin: 10px;
+    border: 1px solid;
+    border-radius: 10px;
+    background-color: aquamarine;
+    border-color: blueviolet;
+    cursor: pointer;
+    
 }
