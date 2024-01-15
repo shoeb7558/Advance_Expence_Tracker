@@ -107,13 +107,14 @@ const Profile = () => {
         </button>
       </form>
       <div>
-      <div>
+      <div className='contactdiv2'>
         {data.map((contact) => (
           <div key={contact.id}>
             
-            <p>Full Name: {contact.fullName}</p>
+            
             <div className='profilepohotdiv'>
-            <span >Profile Photo URL: <img className='profilepohot' src={contact.photoLink} alt="Profile" /></span>
+            <span ><img className='profilepohot' src={contact.photoLink} alt="Profile" /></span>
+            <p>Full Name: {contact.fullName}</p>
             </div>
           </div>
         ))}
