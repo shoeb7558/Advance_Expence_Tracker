@@ -5,6 +5,7 @@ import LogIn from './Authentication/LogIn'
 import Home from './Home/home';
 import Signup from './Authentication/SignUp';
 import Profile from './Home/Profile';
+import ForgotPassword from './Authentication/ForgotPassword';
 
 const App = () => {
   const authCtx = useContext(AuthContext);
@@ -14,6 +15,7 @@ const App = () => {
       <Routes>
         {!authCtx.isLoggedIn && <Route path="/" element={<Signup />} />}
         {!authCtx.isLoggedIn && <Route path="/Login" element={<LogIn />} />} 
+        {!authCtx.isLoggedIn && <Route path="/ForgotPassword" element={<ForgotPassword />} />} 
         {authCtx.isLoggedIn && <Route path="/home" element={<Home />} />}
         <Route path="/Profile" element={<Profile/>}></Route>
       </Routes>
