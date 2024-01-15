@@ -6,6 +6,14 @@
     border-bottom: 1px solid gray;
     padding-bottom: 10px;
 }
+.homediv2{
+    
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    padding: 10px;
+    margin: 20px;
+}
 .verifybutton{
     padding: 20px;
     margin: 10px;
