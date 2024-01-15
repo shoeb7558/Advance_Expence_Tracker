@@ -45,10 +45,10 @@ export const AuthContextProvider = (props) => {
   useEffect(() => {
     
    
-    if (isMounted.current) {
-        const itemCount = localStorage.getItem("itemCount");
-        setItemCount(itemCount ? parseInt(itemCount) : 0);
-      }
+    // if (isMounted.current) {
+    //     const itemCount = localStorage.getItem("itemCount");
+    //     setItemCount(itemCount ? parseInt(itemCount) : 0);
+    //   }
 
     return () => {
       isMounted.current = false;      
@@ -59,7 +59,6 @@ export const AuthContextProvider = (props) => {
     token: token,
     isLoggedIn: !!token,
     email: email,
-    itemCount: itemCount,
     login: loginHandler,
     logout: logoutHandler,
     updateItemCount: (count) => setItemCount(count),
