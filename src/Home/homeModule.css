@@ -6,3 +6,18 @@
     border-bottom: 1px solid gray;
     padding-bottom: 10px;
 }
+.verifybutton{
+    padding: 20px;
+    margin: 10px;
+    border: 1px solid;
+    border-radius: 10px;
+    background-color: aquamarine;
+    border-color: blueviolet;
+    cursor: pointer;
+    
+}
+.verifydiv{
+    align-items: end;
+    justify-content: end;
+    display: flex;
+}
