@@ -28,9 +28,10 @@
     align-items: center;
     display: flex;
     padding: 20px;
-    margin: 0px;
+    margin: 5px;
     border-radius:10px;
     border: none;
     background-color: aquamarine;
     list-style: none;
+    
 }
