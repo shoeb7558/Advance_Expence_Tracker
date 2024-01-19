@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './ExpencesModule.css';
+import { toggleTheme } from './ExpenceSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { saveAs } from 'file-saver';
+
 
 const ExpenseTracker = () => {
   const [expenses, setExpenses] = useState([]);
@@ -7,21 +11,30 @@ const ExpenseTracker = () => {
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
   const [editingExpenseId, setEditingExpenseId] = useState(null);
+  const [totalAmount, setTotalAmount] = useState(0);
+
+  const dispatch = useDispatch();
+  const darkMode = useSelector((state) => state.expenses.darkMode);
+
+  const handleThemeToggle = () => {
+    dispatch(toggleTheme());
+    console.log('dark')
+  };
 
   const addExpense = async (e) => {
     e.preventDefault();
-  
+
     if (!amount || !description || !category) {
       alert('Please fill in all fields.');
       return;
     }
-  
+
     const newExpense = {
       amount: parseFloat(amount),
       description,
       category,
     };
-  
+
     const responseAdd = await fetch('https://advanceexpencetracker-default-rtdb.firebaseio.com/Expences.json', {
       method: 'POST',
       body: JSON.stringify(newExpense),
@@ -29,19 +42,20 @@ const ExpenseTracker = () => {
         'content-type': 'application/json',
       },
     });
-  
+
     if (responseAdd.ok) {
       const responseDataAdd = await responseAdd.json();
       console.log('Expense added successfully:', responseDataAdd);
-  
+
       // Update the local state only after the new expense is successfully added
       setExpenses((prevExpenses) => [...prevExpenses, { id: responseDataAdd.name, ...newExpense }]);
-  
+      setTotalAmount((prevTotal) => prevTotal + newExpense.amount);
+
       // Clear input fields
       setAmount('');
       setDescription('');
       setCategory('');
-  
+
       // If editingExpenseId is not null, update the expense
       if (editingExpenseId !== null) {
         const updatedExpense = {
@@ -50,7 +64,7 @@ const ExpenseTracker = () => {
           description,
           category,
         };
-  
+
         // Make the fetch request to update the expense
         const responseUpdate = await fetch(
           `https://advanceexpencetracker-default-rtdb.firebaseio.com/Expences/${editingExpenseId}.json`,
@@ -62,7 +76,7 @@ const ExpenseTracker = () => {
             },
           }
         );
-  
+
         if (responseUpdate.ok) {
           console.log('Expense updated successfully');
           setEditingExpenseId(null);
@@ -74,7 +88,6 @@ const ExpenseTracker = () => {
       console.error('Failed to add expense');
     }
   };
-  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -86,6 +99,10 @@ const ExpenseTracker = () => {
         const result = await response.json();
         const Expences = result ? Object.keys(result).map((key) => ({ id: key, ...result[key] })) : [];
         setExpenses(Expences);
+
+        // Calculate the initial total amount
+        const initialTotal = Expences.reduce((total, expense) => total + expense.amount, 0);
+        setTotalAmount(initialTotal);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -97,11 +114,15 @@ const ExpenseTracker = () => {
   }, []);
 
   const handleDeleteClick = async (expenseId) => {
+    const expenseToDelete = expenses.find((expense) => expense.id === expenseId);
+
     const response = await fetch(`https://advanceexpencetracker-default-rtdb.firebaseio.com/Expences/${expenseId}.json`, {
       method: 'DELETE',
     });
+
     if (response.ok) {
       setExpenses((prevExpenses) => prevExpenses.filter((expense) => expense.id !== expenseId));
+      setTotalAmount((prevTotal) => prevTotal - expenseToDelete.amount);
     }
   };
 
@@ -152,7 +173,7 @@ const ExpenseTracker = () => {
     } else {
       console.error('Failed to update expense');
     }
-   };
+  };
 
   const handleCancelClick = () => {
     setAmount('');
@@ -160,12 +181,32 @@ const ExpenseTracker = () => {
     setCategory('');
     setEditingExpenseId(null);
   };
+  const handlePrimumactivartion =() => {
+    console.log('activated')
+  }
+  const convertToCSV = () => {
+    const csvContent = 'data:text/csv;charset=utf-8,';
+    const header = Object.keys(expenses[0]).join(',');
 
+    const csvData = expenses.map(expense => Object.values(expense).join(','));
+
+    const csv = `${csvContent}${header}\n${csvData.join('\n')}`;
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+
+    saveAs(blob, 'expenses.csv');
+  };
+ 
   return (
-    <div className='expencediv1'>
+    <div className={`expencediv1 ${darkMode ? 'dark-theme' : ''}`}>
       <h2>Expense Tracker</h2>
+      <button onClick={handleThemeToggle} className='premiumButton'>
+          Dark Theme
+        </button>
+        <button onClick={convertToCSV} className='downloadButton'>
+        Download Expenses CSV
+      </button>
       <div>
-        <form onSubmit={addExpense} className='expencediv2'>
+        <form onSubmit={addExpense} className={`expencediv2 ${darkMode ? 'dark-theme' : ''}`}>
           <label>
             Amount:
             <input
@@ -220,25 +261,33 @@ const ExpenseTracker = () => {
         </form>
       </div>
 
-      <ul>
-        {expenses.map((expense, index) => (
-          <li key={index} className='expenceli'>
-            <span>
-              <strong>AMOUNT : </strong>${expense.amount.toFixed(2)}
-            </span>
-            <span>
-              <strong>DESCRIPTION : </strong>
-              {expense.description}
-            </span>
-            <span>
-              <strong>CATEGORY : </strong>
-              {expense.category}
-            </span>
-            <button onClick={() => handleUpdateClick(expense.id)}>Update</button>
-            <button onClick={() => handleDeleteClick(expense.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+      {totalAmount > 1000 && (
+        <button onClick={handlePrimumactivartion} className='premiumButton'>
+          Activate Premium
+        </button>
+      )}
+
+      {totalAmount <= 1000 && (
+        <ul>
+          {expenses.map((expense, index) => (
+            <li key={index} className='expenceli'>
+              <span>
+                <strong>AMOUNT : </strong>${expense.amount.toFixed(2)}
+              </span>
+              <span>
+                <strong>DESCRIPTION : </strong>
+                {expense.description}
+              </span>
+              <span>
+                <strong>CATEGORY : </strong>
+                {expense.category}
+              </span>
+              <button onClick={() => handleUpdateClick(expense.id)}>Update</button>
+              <button onClick={() => handleDeleteClick(expense.id)}>Delete</button>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

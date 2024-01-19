@@ -1,12 +1,12 @@
-// authSlice.js
-
 import { createSlice } from '@reduxjs/toolkit';
+
+const storedToken = localStorage.getItem('token');
 
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    isLoggedIn: false,
-    token: localStorage.getItem('token') || null, // Get token from local storage
+    isLoggedIn: !!storedToken, // Set to true if the token exists in local storage
+    token: storedToken || null, // Get token from local storage
   },
   reducers: {
     login(state, action) {
