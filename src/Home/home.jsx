@@ -1,14 +1,20 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import './homeModule.css';
 import AuthContext from '../Context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import ExpenseTracker from '../Expences/Expences';
+import { useDispatch } from 'react-redux';
+import { logout } from '../Context/authSlice';
 
 function Home() {
-    const AuthCtx = useContext(AuthContext);
-    const Navigate = useNavigate();
+  const auth = useSelector((state) => state.auth);
+  
+  const AuthCtx = useContext(AuthContext);
+  const Navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const verifyEmail = async () => {
-   
     try {
       // Retrieve email and token from localStorage
       const email = localStorage.getItem('email');
@@ -49,8 +55,9 @@ function Home() {
     }
   };
 
-  const logoutHandler = () =>{
+  const logoutHandler = () => {
     AuthCtx.logout();
+    dispatch(logout());
     Navigate('/LogIn');
   }
 
@@ -59,18 +66,21 @@ function Home() {
       <div className='homediv1'>
         <h1>Welcome to the home page</h1>
         <div className='homediv2'>
-        <button className='verifybutton2' onClick={logoutHandler}>LogOut</button>
-        <h5><Link to='/Profile'>Profile</Link></h5>
-        {!AuthCtx.isLoggedIn && <h5><Link to='/signup'>SignUp</Link></h5>}
+        {!auth.isLoggedIn && <h5><Link to='/signup'>SignUp</Link></h5>}
+          {auth.isLoggedIn &&<button className='verifybutton2' onClick={logoutHandler}>LogOut</button>}
+          <h5><Link to='/Profile'>Profile</Link></h5>
+          
         </div>
       </div>
-      {AuthCtx.isLoggedIn &&<div className='verifydiv'>
-        <button className='verifybutton'  onClick={verifyEmail}>
-          Verify Email
-        </button>
-      </div>}
+      {auth.isLoggedIn && (
+        <div className='verifydiv'>
+          <button className='verifybutton' onClick={verifyEmail}>
+            Verify Email
+          </button>
+        </div>
+      )}
       <div>
-        {AuthCtx.isLoggedIn && <ExpenseTracker/> }
+        {auth.isLoggedIn && <ExpenseTracker />}
       </div>
     </>
   );

@@ -1,24 +1,26 @@
-import React, { useContext } from 'react';
-import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-import AuthContext from './Context/AuthContext';
-import LogIn from './Authentication/LogIn'
+// App.js or App.jsx
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import LogIn from './Authentication/LogIn';
 import Home from './Home/home';
 import Signup from './Authentication/SignUp';
 import Profile from './Home/Profile';
 import ForgotPassword from './Authentication/ForgotPassword';
 
 const App = () => {
-  const authCtx = useContext(AuthContext);
+  const auth = useSelector((state) => state.auth);
 
   return (
     <Router>
       <Routes>
-        {!authCtx.isLoggedIn && <Route path="/signup" element={<Signup />} />}
-        {!authCtx.isLoggedIn && <Route path="/Login" element={<LogIn />} />} 
-        {!authCtx.isLoggedIn && <Route path="/ForgotPassword" element={<ForgotPassword />} />} 
-        {authCtx.isLoggedIn && <Route path="/" element={<Home />} />}
-        <Route path="/Profile" element={<Profile/>}></Route>
-      </Routes>
+          {!auth.isLoggedIn && <Route path="/signup" element={<Signup />} />}
+          {!auth.isLoggedIn && <Route path="/login" element={<LogIn />} />}
+          {!auth.isLoggedIn && <Route path="/forgotPassword" element={<ForgotPassword />} />}
+          <Route path="/" element={<Home/>} />
+      <Route path="/profile" element={<Profile />} />
+    </Routes>
+
     </Router>
   );
 };
