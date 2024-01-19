@@ -35,3 +35,14 @@
     list-style: none;
     
 }
+
+.expencediv1.dark-theme {
+    background-color: #1a1a1a; /* Dark background color */
+    color: #ffffff; /* Light text color */
+  }
+  
+  .expencediv2.dark-theme {
+    background-color: #1a1a1a; /* Dark background color */
+    color: #ffffff; /* Light text color */
+  }
+  
