@@ -1,7 +1,10 @@
 import Home from '../Home/home';
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor  } from '@testing-library/react'
 import '@testing-library/jest-dom'; 
 import Profile from '../Home/Profile';
+import { Provider } from 'react-redux';
+import store from 'path/to/your/store';
+import userEvent from '@testing-library/user-event'
 
 
 describe('this the home component', () => {
@@ -30,6 +33,24 @@ describe('this the home component', () => {
         const ProfilefirstElement = screen.getByText(/Profile Photo URL:/);
         expect(ProfilefirstElement).toBeInTheDocument();
       
+    });
+    test('renders logout button and logs out on click',async  () => {
+        // Arrange
+        render(
+            <Provider store={store}>
+                <Home />
+            </Provider>
+        );
+
+        // Act
+        const logoutButton = screen.getByText('LogOut');
+        userEvent.click(logoutButton);
+
+        // Assert
+        await waitFor(() => {
+            const loginButton = screen.getByText('LogIn');
+            expect(loginButton).toBeInTheDocument();
+        });
     });
 })
 
