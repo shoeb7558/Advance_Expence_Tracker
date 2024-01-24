@@ -9,6 +9,7 @@ import { logout } from '../Context/authSlice';
 
 function Home() {
   const auth = useSelector((state) => state.auth);
+  const darkMode = useSelector((state) => state.expenses.darkMode);
   
   const AuthCtx = useContext(AuthContext);
   const Navigate = useNavigate();

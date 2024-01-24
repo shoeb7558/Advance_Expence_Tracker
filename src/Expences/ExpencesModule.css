@@ -45,4 +45,25 @@
     background-color: #1a1a1a; /* Dark background color */
     color: #ffffff; /* Light text color */
   }
+  .downloadButton{
+    width: 200px;
+    background-color: aquamarine;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+  }
+  .premiumButton{
+    width: 100px;
+    background-color: aquamarine;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 50px;
+  }
   
+  .primiumdiv{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    text-align: center;
+  }
