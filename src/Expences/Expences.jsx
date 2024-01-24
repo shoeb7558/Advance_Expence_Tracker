@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './ExpencesModule.css';
-import { toggleTheme } from './ExpenceSlice';
-import { useDispatch, useSelector } from 'react-redux';
+
 import { saveAs } from 'file-saver';
 
 
@@ -13,14 +12,7 @@ const ExpenseTracker = () => {
   const [editingExpenseId, setEditingExpenseId] = useState(null);
   const [totalAmount, setTotalAmount] = useState(0);
 
-  const dispatch = useDispatch();
-  const darkMode = useSelector((state) => state.expenses.darkMode);
-
-  const handleThemeToggle = () => {
-    dispatch(toggleTheme());
-    console.log('dark')
-  };
-
+ 
   const addExpense = async (e) => {
     e.preventDefault();
 
@@ -197,16 +189,16 @@ const ExpenseTracker = () => {
   };
  
   return (
-    <div className={`expencediv1 ${darkMode ? 'dark-theme' : ''}`}>
+    <div className='expencediv1' >
       <h2>Expense Tracker</h2>
-      <button onClick={handleThemeToggle} className='premiumButton'>
+      {/* <button onClick={handleThemeToggle} className='premiumButton'>
           Dark Theme
-        </button>
+        </button> */}
         <button onClick={convertToCSV} className='downloadButton'>
-        Download Expenses CSV
+        Download Expenses
       </button>
       <div>
-        <form onSubmit={addExpense} className={`expencediv2 ${darkMode ? 'dark-theme' : ''}`}>
+        <form onSubmit={addExpense} className='expencediv2'>
           <label>
             Amount:
             <input
@@ -260,12 +252,13 @@ const ExpenseTracker = () => {
           )}
         </form>
       </div>
-
+      <div className='primiumdiv'>
       {totalAmount > 1000 && (
         <button onClick={handlePrimumactivartion} className='premiumButton'>
           Activate Premium
         </button>
-      )}
+        
+      )}</div>
 
       {totalAmount <= 1000 && (
         <ul>
